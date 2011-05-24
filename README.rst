@@ -1,4 +1,4 @@
-MAGMA .01
+MAGMA 0.8
 =========
 
 Magma is a tool to help developers generate workflow and unit test documentation for Django projects.
