@@ -15,6 +15,7 @@ tokens = [
     'NEWLINE', 
     'WHITESPACE', 
     'BLOCKSTART', 
+    'RIGHTBRACKET',
     'BLOCKEND', 
     'ID',
     'LPAREN',
@@ -26,10 +27,12 @@ tokens = [
 t_BLOCKSTART = r'{'
 t_BLOCKEND = r'}'
 t_LPAREN = r'\('
+t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LISTDELIM = r'\,'
 t_DESCRIPTION = r'\:.*'
 t_STRING = r'".*"'
+t_RIGHTBRACKET = r'\>'
 
 def t_WHITESPACE(t):
     r'[ 	]+'
