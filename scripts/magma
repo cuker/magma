@@ -1,0 +1,10 @@
+#!python
+import sys
+from magma.parse import parse_file
+from magma.magma import generate_rst
+
+for arg in sys.argv[1:]:
+    tasks = parse_file(arg)
+    for task in tasks:
+        generate_rst(tasks[task])
+

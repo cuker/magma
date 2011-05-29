@@ -21,5 +21,8 @@ setup(
         where = '.',
         exclude='docs',
     ),
+    scripts = [
+        'scripts/magma'
+    ]
 )
 

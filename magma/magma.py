@@ -15,8 +15,4 @@ def generate_rst(task):
             print "* **%s** %s"%(action.actor.name, action.description)
     print ""
 
-for arg in sys.argv[1:]:
-    tasks = parse_file(arg)
-    for task in tasks:
-        generate_rst(tasks[task])
 
