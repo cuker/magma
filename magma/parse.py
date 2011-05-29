@@ -68,17 +68,23 @@ def p_task_roles(p):
     '''
     role = Role.lookup.get(p[2])
     if role == None:
-        stderr.write( "Warning: Role not found: %s"%p[2])
+        stderr.write( "Warning: Role not found: %s\n"%p[2])
     else: 
         role_accumulator.append(role)
 
+def p_namespace_path(p):
+    '''path : id
+            | id RIGHTBRACKET path 
+    '''
+    print "Path is: %s"%p[1]
+
 def p_task_requirements(p):
-    '''task_requirements : REQUIRES id
-                         | REQUIRES id task_requirements 
+    '''task_requirements : REQUIRES path
+                         | REQUIRES path task_requirements 
     '''
     task = Task.lookup.get(p[2])
     if task == None:
-        stderr.write("Warning: Task not found: %s"%p[2])
+        stderr.write("Warning: Task not found: %s\n"%p[2])
     else: 
         requirement_accumulator.append(task)
 
@@ -107,7 +113,7 @@ def p_script_actions(p):
     # check Actor
     actor = Actor.lookup.get(p[2])
     if actor == None:
-        stderr.write("Warning: Actor not found: %s"%p[2])
+        stderr.write("Warning: Actor not found: %s\n"%p[2])
         p[0] = None
     else:
         action = Action(actor, p[3].strip(":").strip(" "))
