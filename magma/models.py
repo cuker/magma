@@ -1,16 +1,12 @@
 import hashlib
+
+from sys import stderr
+
 roles = dict()
 actors = dict()
 tasks = dict()
 scripts = dict()
 actions = dict()
-
-def dump():
-    print roles
-    print actors
-    print tasks
-    print scripts
-    print actions
 
 class LookupElement(object):
     lookup = None
@@ -21,7 +17,7 @@ class LookupElement(object):
             if self.lookup.get(name) == None:
                 self.lookup[name] = self
             else:
-                raise Exception("Duplicate Key: %s",name)
+                stderr.write("Warning: Duplicate Key: %s\n"%name)
         else:   
             raise Exception("Improperly Configured.  Must have a lookup")
 
