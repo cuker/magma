@@ -13,6 +13,7 @@ def generate_rst(task):
         print ""
         for action in script.actions:
             print "* **%s** %s"%(action.actor.name, action.description)
+        print ""
     print ""
 
 

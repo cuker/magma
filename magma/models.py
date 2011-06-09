@@ -1,12 +1,14 @@
 import hashlib
 
-from sys import stderr
+#from sys import stderr
 
 roles = dict()
 actors = dict()
 tasks = dict()
 scripts = dict()
 actions = dict()
+task_templates = dict()
+
 
 class LookupElement(object):
     lookup = None
@@ -17,9 +19,12 @@ class LookupElement(object):
             if self.lookup.get(name) == None:
                 self.lookup[name] = self
             else:
-                stderr.write("Warning: Duplicate Key: %s\n"%name)
+                #stderr.write("Warning: Duplicate Key: %s\n"%name)
+                pass
         else:   
             raise Exception("Improperly Configured.  Must have a lookup")
+
+
 
 class Role (LookupElement):
     lookup = roles
@@ -44,7 +49,7 @@ class Task (LookupElement):
     lookup = tasks
 
     def __init__(self, name, script_set):
-        self.scripts = script_set
+        self.scripts = script_set[:]
         self.requirements = list()
         self.description = ""
         self.roles = list()
@@ -56,13 +61,38 @@ class Task (LookupElement):
     
     def get_scripts(self):
         return self.scripts
-    
+
+class TaskTemplate (Task):
+    lookup = task_templates 
+
+    def __init__(self, name, template_parameters, script_set):
+        super(TaskTemplate, self).__init__(name, script_set) 
+        self.param_dict = dict()
+        self.template_parameters = template_parameters[:]
+        self.name = name
+        self.template_text = ""
+
+    def set_parameter(self, param_name, param_value):
+        self.param_dict[param_name] = param_value
+
+    def render_task(self, task_name):
+        scripts_copy = self.scripts[:]
+        for script in scripts_copy:
+            for key, value in self.param_dict.items():
+                script.name = script.name.replace("||%s||"%key, value)
+            for action in script.actions:
+                for key, value in self.param_dict.items():
+                    action.description = action.description.replace("||%s||"%key, value)
+
+        task = Task(task_name, scripts_copy)
+        return task
+        
 class Script (LookupElement):
     lookup = scripts
 
     def __init__(self, name, action_set):
         self.task = None
-        self.actions = action_set
+        self.actions = action_set[:]
         super(Script, self).__init__(name)
         
     def add_action(self, action):

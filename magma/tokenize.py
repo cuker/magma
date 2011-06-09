@@ -4,14 +4,17 @@ reserved = {
     'role': 'ROLE',
     'action': 'ACTION',
     'task': 'TASK',
+    'task_template': 'TASK_TEMPLATE',
     'script': 'SCRIPT',
     'requires': 'REQUIRES',
     'description': 'DESCRIPTION',
+    'implements':'IMPLEMENTS',
     'package' : 'NAMESPACE',
 }
 
 tokens = [
     'COMMENT',
+    'COMMA',
     'NEWLINE', 
     'WHITESPACE', 
     'BLOCKSTART', 
@@ -20,19 +23,17 @@ tokens = [
     'ID',
     'LPAREN',
     'RPAREN',
-    'LISTDELIM',
     'STRING',
 ] + list(reserved.values())
 
 t_BLOCKSTART = r'{'
 t_BLOCKEND = r'}'
 t_LPAREN = r'\('
-t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_LISTDELIM = r'\,'
 t_DESCRIPTION = r'\:.*'
-t_STRING = r'".*"'
+t_STRING = r'\"[^"]*\"'
 t_RIGHTBRACKET = r'\>'
+t_COMMA = r'\,'
 
 def t_WHITESPACE(t):
     r'[ 	]+'
